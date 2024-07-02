@@ -1,5 +1,6 @@
 import User from '../../models/users.js';
 import {getHash} from '../../utils/cryptoHelper.js'
+import {generateToken} from '../../utils/authHelper.js'
 
 const registerController = async (req, res) => {
     try{
@@ -21,7 +22,13 @@ const registerController = async (req, res) => {
         const user = new User({username, email, password: hashedPassword});
         await user.save();
 
-        res.status(201).send({message: "User Created Successfully"});
+        const jwtoken = generateToken({
+            id: user._id,
+            username: user.username,
+            role: user.role
+        })
+
+        res.status(201).send({message: "User Created Successfully", jwtoken});
 
     }
     catch(error){

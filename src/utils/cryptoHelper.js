@@ -29,7 +29,7 @@ export const decrypt = (
     inputEncodingType='hex',
     outputEncodingType='utf8'
 ) => {
-    const decipher = crypto.createDecipher(key, algorithm);
+    const decipher = crypto.createDecipher(algorithm, key)
     let decrypted = decipher.update(encryptedData, inputEncodingType, outputEncodingType) + decipher.final(outputEncodingType);
     return JSON.parse(decrypted);
 }
